@@ -82,7 +82,7 @@ public class HuffProcessor {
 			HuffNode left = pq.remove();
 			HuffNode right = pq.remove();
 
-			HuffNode t = new HuffNode(left.myValue + right.myValue,left.myWeight+ right.myWeight, left, right);
+			HuffNode t = new HuffNode(-1,left.myWeight+ right.myWeight, left, right);
 
 			pq.add(t);
 		}
