@@ -153,7 +153,6 @@ public class HuffProcessor {
 	}
 
 	private void writeCompressedBits(String[] codings, BitInputStream in, BitOutputStream out){
-
 		while(true){
 			int value = in.readBits(BITS_PER_WORD);
 
@@ -162,12 +161,17 @@ public class HuffProcessor {
 			String code = codings[value];
 
 			out.writeBits(code.length(), Integer.parseInt(code, 2));
-            System.out.println(value + " wrote " + Integer.parseInt(code, 2)+ " for " + code.length() + " bits");
+			if(myDebugLevel >= DEBUG_HIGH) {
+				System.out.println(value + " wrote " + Integer.parseInt(code, 2) + " for " + code.length() + " bits");
+			}
 		}
 
 		String pseudo = codings[PSEUDO_EOF];
 		out.writeBits(pseudo.length(), Integer.parseInt(pseudo, 2));
-        System.out.println(PSEUDO_EOF + " wrote " + Integer.parseInt(pseudo, 2)+ " for " + pseudo.length() + " bits");
+		in.close();
+		if(myDebugLevel >= DEBUG_HIGH) {
+			System.out.println(PSEUDO_EOF + " wrote " + Integer.parseInt(pseudo, 2) + " for " + pseudo.length() + " bits");
+		}
 
 	}
 
