@@ -86,6 +86,7 @@ public class HuffProcessor {
 			pq.add(t);
 		}
 
+
 		return pq.remove();
 	}
 
