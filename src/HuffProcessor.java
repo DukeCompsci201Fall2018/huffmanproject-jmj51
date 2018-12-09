@@ -64,6 +64,7 @@ public class HuffProcessor {
 			if(index == -1) break;
 			values[index]++;
 		}
+
 		return values;
 	}
 
@@ -92,7 +93,6 @@ public class HuffProcessor {
 
 	private String[] makeCodingsFromTree(HuffNode root){
 		String[] encodings = new String[ALPH_SIZE +1];
-		Arrays.fill(encodings, "");
 
 		codingHelper(root,"", encodings);
 
