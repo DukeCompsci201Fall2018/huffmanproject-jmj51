@@ -92,6 +92,7 @@ public class HuffProcessor {
 
 	private String[] makeCodingsFromTree(HuffNode root){
 		String[] encodings = new String[ALPH_SIZE +1];
+		Arrays.fill(encodings, "");
 
 		codingHelper(root,"", encodings);
 
