@@ -10,7 +10,7 @@
  * @author Owen Astrachan
  */
 import java.util.*;
-
+import java.io.*;
 public class HuffProcessor {
 
 	public static final int BITS_PER_WORD = 8;
@@ -65,6 +65,14 @@ public class HuffProcessor {
 			values[index]++;
 		}
 
+		if(myDebugLevel >= DEBUG_HIGH){
+		    for(int k = 0; k < values.length; k++){
+		        if(values[k] == 0)continue;
+		        System.out.println(k + "  " + values[k]);
+
+            }
+        }
+
 		return values;
 	}
 
@@ -78,6 +86,12 @@ public class HuffProcessor {
 			pq.add(new HuffNode(k, counts[k], null, null));
 		}
 
+        if(myDebugLevel >= DEBUG_HIGH){
+            System.out.println("pq created with " + pq.size() + " nodes");
+        }
+
+
+
 		while(pq.size() > 1){
 			HuffNode left = pq.remove();
 			HuffNode right = pq.remove();
@@ -88,6 +102,7 @@ public class HuffProcessor {
 		}
 
 		HuffNode ret = pq.remove();
+
 		return ret;
 	}
 
@@ -96,6 +111,13 @@ public class HuffProcessor {
 		Arrays.fill(encodings, "");
 
 		codingHelper(root,"", encodings);
+
+        if(myDebugLevel >= DEBUG_HIGH){
+            for(int k = 0; k < encodings.length; k++){
+                if(encodings[k].equals(""))continue;
+                System.out.println("encoding for " + k + " is " + encodings[k]);
+            }
+        }
 
 		return encodings;
 	}
@@ -116,12 +138,16 @@ public class HuffProcessor {
 
 		if(root.myValue == 0){
 			out.writeBits(1, 0);
+
 			writeHeader(root.myLeft, out);
 			writeHeader(root.myRight, out);
 		}
 		else if(root.myLeft == null && root.myRight == null){
 			out.writeBits(1, 1);
 			out.writeBits(BITS_PER_WORD +1, root.myValue);
+            if(myDebugLevel >= DEBUG_HIGH){
+                System.out.println("wrote leaf for tree " + root.myValue);
+            }
 
 		}
 	}
@@ -130,15 +156,19 @@ public class HuffProcessor {
 
 		while(true){
 			int value = in.readBits(BITS_PER_WORD);
+
 			if(value == -1) break;
 
 			String code = codings[value];
 
 			out.writeBits(code.length(), Integer.parseInt(code, 2));
+            System.out.println(value + " wrote " + Integer.parseInt(code, 2)+ " for " + code.length() + " bits");
 		}
 
 		String pseudo = codings[PSEUDO_EOF];
 		out.writeBits(pseudo.length(), Integer.parseInt(pseudo, 2));
+        System.out.println(PSEUDO_EOF + " wrote " + Integer.parseInt(pseudo, 2)+ " for " + pseudo.length() + " bits");
+
 	}
 
 
@@ -164,7 +194,6 @@ public class HuffProcessor {
 		if(bits != HUFF_TREE){
 			throw new HuffException("illegal header starts with " + bits);
 		}
-
 		HuffNode root = readTreeHeader(in);
 		readCompressedBits(root, in, out);
 		out.close();
@@ -225,6 +254,7 @@ public class HuffProcessor {
 
 		}
 	}
+
 
 
 
