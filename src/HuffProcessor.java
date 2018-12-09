@@ -86,8 +86,8 @@ public class HuffProcessor {
 			pq.add(t);
 		}
 
-
-		return pq.remove();
+		HuffNode ret = pq.remove();
+		return ret;
 	}
 
 	private String[] makeCodingsFromTree(HuffNode root){
