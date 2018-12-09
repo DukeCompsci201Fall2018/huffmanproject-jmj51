@@ -60,7 +60,7 @@ public class HuffProcessor {
 		values[PSEUDO_EOF] = 1;
 
 		while(true){
-			int index = in.readBits(BITS_PER_WORD);
+			int index = in.readBits(BITS_PER_WORD + 1);
 			if(index == -1) break;
 			values[index]++;
 		}
@@ -82,7 +82,7 @@ public class HuffProcessor {
 			HuffNode left = pq.remove();
 			HuffNode right = pq.remove();
 
-			HuffNode t = new HuffNode(-1,left.myWeight+ right.myWeight, left, right);
+			HuffNode t = new HuffNode(0,left.myWeight+ right.myWeight, left, right);
 
 			pq.add(t);
 		}
