@@ -152,6 +152,8 @@ public class HuffProcessor {
 	}
 
 	private void writeCompressedBits(String[] codings, BitInputStream in, BitOutputStream out){
+		out.writeBits(BITS_PER_INT, HUFF_TREE);
+
 		while(true){
 			int value = in.readBits(BITS_PER_WORD);
 
