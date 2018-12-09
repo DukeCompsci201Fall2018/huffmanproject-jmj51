@@ -170,7 +170,7 @@ public class HuffProcessor {
 	 * @param in this is the BitInputStream that needs to be read
 	 * @return will return the HuffNode for the entire tree
 	 */
-	public HuffNode readTreeHeader(BitInputStream in){
+	private HuffNode readTreeHeader(BitInputStream in){
 		int bit = in.readBits(1);
 		if(bit == -1){
 			throw new HuffException("Reading bits has failed");
@@ -194,7 +194,7 @@ public class HuffProcessor {
 	 * @param in this the BitInputStream that needs to be read
 	 * @param out this is the BitOutputStream that is need to write the Bits into something that is decompressed
 	 */
-	public void readCompressedBits(HuffNode root, BitInputStream in , BitOutputStream out){
+	private void readCompressedBits(HuffNode root, BitInputStream in , BitOutputStream out){
 		HuffNode current = root;
 
 		while(true){
